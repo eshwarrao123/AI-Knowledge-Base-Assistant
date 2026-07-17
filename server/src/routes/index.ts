@@ -1,14 +1,21 @@
-import { Router } from 'express';
+import { Router, type Request, type Response } from 'express';
+import { sendSuccess } from '@utils/response';
 
 const router = Router();
 
-// Mount your feature routers here, e.g.:
-// import { authRouter } from './authRoutes';
-// router.use('/auth', authRouter);
-
-// Health check / placeholder
-router.get('/', (_req, res) => {
-  res.json({ success: true, message: 'API v1 is running 🚀' });
+// ─── Health Check ─────────────────────────────────────────────────────────────
+router.get('/health', (_req: Request, res: Response) => {
+  sendSuccess(res, { timestamp: new Date().toISOString() }, 'OK');
 });
+
+// ─── Feature Routers ──────────────────────────────────────────────────────────
+// Mount feature routers here as the project grows, e.g.:
+// import { authRouter } from './authRoutes';
+// import { documentRouter } from './documentRoutes';
+// import { conversationRouter } from './conversationRoutes';
+//
+// router.use('/auth', authRouter);
+// router.use('/documents', documentRouter);
+// router.use('/conversations', conversationRouter);
 
 export { router as apiRouter };
