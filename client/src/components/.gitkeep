@@ -1,0 +1,10 @@
+# Components
+
+Place shared UI components here. Example structure:
+
+```
+components/
+├── ui/           # Primitive UI elements (Button, Input, Modal, etc.)
+├── layout/       # Header, Footer, Sidebar, etc.
+└── features/     # Feature-specific composite components
+```
