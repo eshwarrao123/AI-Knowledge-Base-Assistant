@@ -31,13 +31,14 @@ The AI Knowledge Base Assistant is a full-stack web application that allows user
 - Node.js (v18 or higher)
 - A MongoDB Atlas account (or local MongoDB instance)
 - An OpenAI API Key
+- A GEMINI API Key
 
 ## Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/ai-knowledge-base-assistant.git
-   cd ai-knowledge-base-assistant
+   git clone https://github.com/eshwarrao123/AI-Knowledge-Base-Assistant
+   cd AI-Knowledge-Base-Assistant
    ```
 
 2. **Install dependencies**
@@ -69,6 +70,9 @@ The AI Knowledge Base Assistant is a full-stack web application that allows user
 | `MONGODB_URI` | MongoDB connection string | `mongodb+srv://...` |
 | `JWT_SECRET` | Secret key for JWT signing | `your_super_secret_key` |
 | `OPENAI_API_KEY` | OpenAI API Key | `sk-...` |
+| `GEMINI_API_KEY` | GEMINI API Key | `AQ-...` |
+
+
 | `CLIENT_URL` | Frontend URL for CORS | `http://localhost:5173` |
 
 ### Client (`client/.env`)
@@ -137,22 +141,9 @@ GPT-3.5-turbo was chosen as the AI engine due to its excellent balance of speed,
 
 ## Screenshots
 
-*(Add screenshots here)*
+*()*
 
-## Deployment
 
-### Backend (Render)
-1. Connect your repository to Render.com and create a new **Web Service**.
-2. Set the Root Directory to `server/`.
-3. Build Command: `npm install && npm run build`
-4. Start Command: `node dist/index.js`
-5. Attach a Disk to mount `/app/uploads` for local file storage persistence.
-6. Populate the required environment variables (`MONGODB_URI`, `JWT_SECRET`, `OPENAI_API_KEY`, etc.).
-
-### Frontend (Vercel)
-1. Import the repository into Vercel and set the Root Directory to `client/`.
-2. Vercel will auto-detect Vite. Use the default build commands.
-3. Set the `VITE_API_URL` environment variable to point to your live Render backend URL.
 
 ## Future Improvements
 
