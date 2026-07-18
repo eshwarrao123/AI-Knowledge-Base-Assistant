@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
 import DocumentModel from '@models/Document';
 import Conversation from '@models/Conversation';
 import { AppError } from '@middleware/errorHandler';
@@ -14,6 +15,12 @@ export const askQuestion = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      next(new AppError(String(errors.array()[0].msg), 400));
+      return;
+    }
+
     const { documentId, question, conversationId } = req.body as {
       documentId?: string;
       question?: string;

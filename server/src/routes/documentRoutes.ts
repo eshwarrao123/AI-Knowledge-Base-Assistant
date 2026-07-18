@@ -1,5 +1,6 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import multer from 'multer';
+import { param } from 'express-validator';
 import { verifyToken } from '@middleware/auth';
 import { AppError } from '@middleware/errorHandler';
 import { upload } from '@config/upload';
@@ -10,6 +11,10 @@ import {
   deleteDocument,
   previewDocument,
 } from '@controllers/documentController';
+
+const validateMongoId = [
+  param('id').isMongoId().withMessage('Invalid ID format'),
+];
 
 const router = Router();
 
@@ -40,8 +45,8 @@ const handleUpload = (req: Request, res: Response, next: NextFunction): void => 
 
 router.post('/', verifyToken, handleUpload, uploadDocument);
 router.get('/', verifyToken, getDocuments);
-router.get('/:id/preview', verifyToken, previewDocument); // must be before /:id
-router.get('/:id', verifyToken, getDocument);
-router.delete('/:id', verifyToken, deleteDocument);
+router.get('/:id/preview', verifyToken, validateMongoId, previewDocument);
+router.get('/:id', verifyToken, validateMongoId, getDocument);
+router.delete('/:id', verifyToken, validateMongoId, deleteDocument);
 
 export default router;

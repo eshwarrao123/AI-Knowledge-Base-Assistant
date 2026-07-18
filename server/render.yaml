@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: ai-knowledge-base-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    rootDir: server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false          # Set in Render dashboard — use MongoDB Atlas
+      - key: JWT_SECRET
+        generateValue: true  # Auto-generated on first deploy
+      - key: OPENAI_API_KEY
+        sync: false          # Set in Render dashboard
+      - key: CLIENT_URL
+        sync: false          # Set to your Vercel frontend URL
+    disk:
+      name: uploads
+      mountPath: /app/uploads
+      sizeGB: 1              # Increase if needed, or migrate to S3/Cloudinary for production
+    healthCheckPath: /api/health

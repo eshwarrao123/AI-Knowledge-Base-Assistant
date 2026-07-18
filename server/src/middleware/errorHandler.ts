@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+import { logger } from '@utils/logger';
 
 export class AppError extends Error {
   public readonly statusCode: number;
@@ -12,58 +13,72 @@ export class AppError extends Error {
   }
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+const send = (res: Response, status: number, message: string, extra?: object): void => {
+  res.status(status).json({ success: false, message, ...extra });
+};
+
+// ─── Global Error Handler ─────────────────────────────────────────────────────
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const errorHandler = (
-  err: Error | AppError,
+  err: unknown,
   _req: Request,
   res: Response,
   _next: NextFunction,
 ): void => {
-  if (err instanceof AppError) {
-    res.status(err.statusCode).json({
-      success: false,
-      message: err.message,
-    });
+  const error = err as Error & {
+    statusCode?: number;
+    code?: string | number;
+    keyValue?: Record<string, unknown>;
+    errors?: Record<string, { message: string }>;
+    status?: number;
+  };
+
+  // ── Operational AppError ─────────────────────────────────────────────────
+  if (error instanceof AppError) {
+    send(res, error.statusCode, error.message);
     return;
   }
 
-  // Mongoose validation error
-  if (err.name === 'ValidationError') {
-    res.status(400).json({
-      success: false,
-      message: 'Validation failed',
-      error: err.message,
-    });
+  // ── Mongoose CastError (invalid ObjectId) ────────────────────────────────
+  if (error.name === 'CastError') {
+    send(res, 400, 'Invalid ID format');
     return;
   }
 
-  // Mongoose duplicate key error
-  if ((err as NodeJS.ErrnoException).code === '11000') {
-    res.status(409).json({
-      success: false,
-      message: 'Duplicate field value entered',
-    });
+  // ── Mongoose ValidationError ─────────────────────────────────────────────
+  if (error.name === 'ValidationError' && error.errors) {
+    const messages = Object.values(error.errors).map((e) => e.message).join('. ');
+    send(res, 400, messages || 'Validation failed');
     return;
   }
 
-  // JWT errors
-  if (err.name === 'JsonWebTokenError') {
-    res.status(401).json({ success: false, message: 'Invalid token' });
+  // ── Mongoose Duplicate Key (code 11000) ───────────────────────────────────
+  if (error.code === 11000 || error.code === '11000') {
+    send(res, 409, 'Resource already exists');
     return;
   }
 
-  if (err.name === 'TokenExpiredError') {
-    res.status(401).json({ success: false, message: 'Token expired' });
+  // ── JWT ───────────────────────────────────────────────────────────────────
+  if (error.name === 'JsonWebTokenError') {
+    send(res, 401, 'Invalid token');
+    return;
+  }
+  if (error.name === 'TokenExpiredError') {
+    send(res, 401, 'Token expired');
     return;
   }
 
-  // Unknown / unhandled
-  const isDev = process.env.NODE_ENV === 'development';
-  console.error('Unhandled error:', err);
+  // ── OpenAI API errors ─────────────────────────────────────────────────────
+  if (error.constructor?.name === 'APIError' || error.status === 429 || error.status === 503) {
+    send(res, 503, 'AI service temporarily unavailable');
+    return;
+  }
 
-  res.status(500).json({
-    success: false,
-    message: 'Internal server error',
-    ...(isDev && { stack: err.stack }),
-  });
+  // ── Generic 500 ───────────────────────────────────────────────────────────
+  logger.error('Unhandled error:', error.message, error.stack);
+
+  const isDev = process.env.NODE_ENV !== 'production';
+  send(res, 500, 'Internal server error', isDev ? { stack: error.stack } : {});
 };
