@@ -66,25 +66,25 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm shadow-2xl">
+        <div className="bg-slate-900 border border-slate-800 rounded-lg p-8 shadow-sm">
           {/* Header */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center mb-4">
-              <BrainCircuit className="w-6 h-6 text-indigo-400" />
+            <div className="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center mb-4">
+              <BrainCircuit className="w-6 h-6 text-indigo-500" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Create account</h1>
+            <h1 className="text-2xl font-bold text-slate-100 tracking-tight">Create account</h1>
             <p className="text-slate-400 text-sm mt-1">Start chatting with your documents</p>
           </div>
 
           {error && (
-            <div className="mb-4 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+            <div className="mb-6 px-4 py-3 rounded-md bg-rose-500/10 border border-rose-500/30 text-rose-500 text-sm">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1.5">
@@ -96,10 +96,10 @@ export default function RegisterPage() {
                 autoComplete="name"
                 value={name}
                 onChange={(e) => { setName(e.target.value); setFieldErrors((f) => ({ ...f, name: undefined })); }}
-                className={`w-full px-4 py-2.5 bg-white/5 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${fieldErrors.name ? 'border-red-500/60' : 'border-white/10'}`}
+                className={`w-full px-3 py-2 bg-slate-900 border rounded-md text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm ${fieldErrors.name ? 'border-rose-500/60' : 'border-slate-700'}`}
                 placeholder="Jane Smith"
               />
-              {fieldErrors.name && <p className="mt-1 text-xs text-red-400">{fieldErrors.name}</p>}
+              {fieldErrors.name && <p className="mt-1 text-xs text-rose-500">{fieldErrors.name}</p>}
             </div>
 
             {/* Email */}
@@ -113,10 +113,10 @@ export default function RegisterPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); setFieldErrors((f) => ({ ...f, email: undefined })); }}
-                className={`w-full px-4 py-2.5 bg-white/5 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${fieldErrors.email ? 'border-red-500/60' : 'border-white/10'}`}
+                className={`w-full px-3 py-2 bg-slate-900 border rounded-md text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm ${fieldErrors.email ? 'border-rose-500/60' : 'border-slate-700'}`}
                 placeholder="you@example.com"
               />
-              {fieldErrors.email && <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>}
+              {fieldErrors.email && <p className="mt-1 text-xs text-rose-500">{fieldErrors.email}</p>}
             </div>
 
             {/* Password */}
@@ -131,25 +131,25 @@ export default function RegisterPage() {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => { setPassword(e.target.value); setFieldErrors((f) => ({ ...f, password: undefined })); }}
-                  className={`w-full px-4 py-2.5 pr-11 bg-white/5 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all ${fieldErrors.password ? 'border-red-500/60' : 'border-white/10'}`}
+                  className={`w-full px-3 py-2 pr-10 bg-slate-900 border rounded-md text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm ${fieldErrors.password ? 'border-rose-500/60' : 'border-slate-700'}`}
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {fieldErrors.password && <p className="mt-1 text-xs text-red-400">{fieldErrors.password}</p>}
+              {fieldErrors.password && <p className="mt-1 text-xs text-rose-500">{fieldErrors.password}</p>}
             </div>
 
             <button
               id="register-submit"
               type="submit"
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors mt-2"
+              className="w-full flex items-center justify-center gap-2 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-md transition-colors mt-2 text-sm"
             >
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
               {isLoading ? 'Creating account…' : 'Create account'}
@@ -158,7 +158,7 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-center text-sm text-slate-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+            <Link to="/login" className="text-indigo-500 hover:text-indigo-400 font-medium transition-colors">
               Sign in
             </Link>
           </p>

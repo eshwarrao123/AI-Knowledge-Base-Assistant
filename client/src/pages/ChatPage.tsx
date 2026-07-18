@@ -19,12 +19,12 @@ import type { Message } from '@/types/conversation';
 function TypingDots() {
   return (
     <div className="flex items-end gap-2 mb-4">
-      <div className="w-7 h-7 rounded-full bg-indigo-600/30 flex items-center justify-center shrink-0">
-        <Bot className="w-3.5 h-3.5 text-indigo-400" />
+      <div className="w-7 h-7 rounded-md bg-slate-800 flex items-center justify-center shrink-0">
+        <Bot className="w-4 h-4 text-slate-300" />
       </div>
-      <div className="bg-slate-700/60 border border-white/10 px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-1.5">
+      <div className="bg-slate-800 text-slate-300 px-4 py-3 rounded-2xl rounded-bl-md flex items-center gap-1.5 shadow-sm">
         {[0,1,2].map(i => (
-          <span key={i} className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
+          <span key={i} className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
         ))}
       </div>
     </div>
@@ -37,18 +37,18 @@ function MessageBubble({ msg }: { msg: Message }) {
   const isUser = msg.role === 'user';
   return (
     <div className={`flex items-end gap-2 mb-4 ${isUser ? 'flex-row-reverse' : ''}`}>
-      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${isUser ? 'bg-indigo-600' : 'bg-slate-700'}`}>
-        {isUser ? <span className="text-white text-xs font-bold">U</span> : <Bot className="w-3.5 h-3.5 text-indigo-400" />}
+      <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-indigo-600' : 'bg-slate-800'}`}>
+        {isUser ? <span className="text-white text-xs font-bold">U</span> : <Bot className="w-4 h-4 text-slate-300" />}
       </div>
-      <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm ${isUser ? 'bg-indigo-600 text-white rounded-br-sm' : 'bg-slate-700/60 border border-white/10 text-slate-100 rounded-bl-sm'}`}>
+      <div className={`max-w-[75%] px-4 py-3 shadow-sm text-sm ${isUser ? 'bg-indigo-600 text-white rounded-2xl rounded-br-md' : 'bg-slate-800 text-slate-300 rounded-2xl rounded-bl-md'}`}>
         {isUser ? (
-          <p>{msg.content}</p>
+          <p className="leading-relaxed">{msg.content}</p>
         ) : (
-          <div className="prose prose-invert prose-sm max-w-none prose-code:bg-slate-800 prose-code:px-1 prose-code:rounded prose-pre:bg-slate-800">
+          <div className="prose prose-invert prose-sm max-w-none prose-code:bg-slate-900 prose-code:px-1 prose-code:rounded prose-pre:bg-slate-900 text-slate-300">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
           </div>
         )}
-        <p className={`text-xs mt-1.5 ${isUser ? 'text-indigo-200/60' : 'text-slate-500'}`}>
+        <p className={`text-xs mt-1.5 ${isUser ? 'text-indigo-200' : 'text-slate-500'}`}>
           {formatDistanceToNow(new Date(msg.timestamp), { addSuffix: true })}
         </p>
       </div>
@@ -76,26 +76,26 @@ function Sidebar({ open, onClose, activeConvId, onNew }: SidebarProps) {
   return (
     <>
       {/* Overlay (mobile) */}
-      {open && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={onClose} />}
+      {open && <div className="fixed inset-0 z-30 bg-slate-950/80 lg:hidden" onClick={onClose} />}
 
-      <aside className={`fixed top-16 left-0 bottom-0 z-40 w-72 bg-slate-900 border-r border-white/10 flex flex-col transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:z-auto`}>
+      <aside className={`fixed top-16 left-0 bottom-0 z-40 w-72 bg-slate-950 border-r border-slate-800 flex flex-col transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:z-auto`}>
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-          <span className="font-semibold text-white text-sm">Conversations</span>
-          <button onClick={onNew} className="flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 transition-colors">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+          <span className="font-semibold text-slate-100 text-sm tracking-tight">Conversations</span>
+          <button onClick={onNew} className="flex items-center gap-1 text-xs text-indigo-500 hover:text-indigo-400 font-medium transition-colors">
             <Plus className="w-3.5 h-3.5" /> New
           </button>
         </div>
 
         {/* Search */}
-        <div className="px-3 py-2 border-b border-white/10">
+        <div className="px-3 py-2 border-b border-slate-800">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search…"
-              className="w-full pl-8 pr-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-slate-500 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-700 rounded-md text-slate-200 placeholder-slate-500 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
             />
           </div>
         </div>
@@ -107,7 +107,7 @@ function Sidebar({ open, onClose, activeConvId, onNew }: SidebarProps) {
           ) : conversations.map((conv) => (
             <div
               key={conv._id}
-              className={`group flex items-start gap-2 px-3 py-2.5 cursor-pointer hover:bg-white/5 transition-colors ${activeConvId === conv._id ? 'bg-indigo-600/15 border-l-2 border-indigo-500' : ''}`}
+              className={`group flex items-start gap-2 px-3 py-2.5 cursor-pointer hover:bg-slate-900 transition-colors ${activeConvId === conv._id ? 'bg-slate-900 border-l-2 border-indigo-500' : 'border-l-2 border-transparent'}`}
               onClick={() => { navigate(`/chat/${conv._id}`); onClose(); }}
             >
               <div className="flex-1 min-w-0">
@@ -116,7 +116,7 @@ function Sidebar({ open, onClose, activeConvId, onNew }: SidebarProps) {
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); setDeleteTarget(conv._id); }}
-                className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-red-400 transition-all shrink-0 mt-0.5"
+                className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-500 transition-colors shrink-0 mt-0.5"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
@@ -126,14 +126,14 @@ function Sidebar({ open, onClose, activeConvId, onNew }: SidebarProps) {
 
         {/* Delete confirm (inline) */}
         {deleteTarget && (
-          <div className="p-3 border-t border-white/10 bg-slate-800/80">
-            <p className="text-xs text-slate-300 mb-2 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 text-red-400" /> Delete this conversation?</p>
+          <div className="p-3 border-t border-slate-800 bg-slate-900">
+            <p className="text-xs text-slate-300 mb-2 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 text-rose-500" /> Delete this conversation?</p>
             <div className="flex gap-2">
-              <button onClick={() => setDeleteTarget(null)} className="flex-1 py-1.5 text-xs rounded-lg border border-white/10 text-slate-400 hover:bg-white/5">Cancel</button>
+              <button onClick={() => setDeleteTarget(null)} className="flex-1 py-1.5 text-xs rounded-md border border-slate-700 text-slate-400 hover:bg-slate-800 transition-colors">Cancel</button>
               <button
                 onClick={() => { deleteMutation.mutate(deleteTarget, { onSuccess: () => { setDeleteTarget(null); if (activeConvId === deleteTarget) navigate('/chat'); } }); }}
                 disabled={deleteMutation.isPending}
-                className="flex-1 py-1.5 text-xs rounded-lg bg-red-600 hover:bg-red-500 text-white flex items-center justify-center gap-1"
+                className="flex-1 py-1.5 text-xs rounded-md bg-rose-600 hover:bg-rose-500 text-white flex items-center justify-center gap-1 font-medium transition-colors disabled:opacity-50"
               >
                 {deleteMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : null} Delete
               </button>
@@ -152,12 +152,12 @@ function DocumentSelector({ onSelect }: { onSelect: (id: string) => void }) {
   const docs = data?.documents ?? [];
 
   return (
-    <div className="flex-1 flex items-center justify-center p-8">
+    <div className="flex-1 flex items-center justify-center p-8 bg-slate-950">
       <div className="max-w-md w-full text-center">
-        <div className="w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mx-auto mb-6">
-          <BrainCircuit className="w-8 h-8 text-indigo-400" />
+        <div className="w-16 h-16 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto mb-6 shadow-sm">
+          <BrainCircuit className="w-8 h-8 text-indigo-500" />
         </div>
-        <h2 className="text-xl font-bold text-white mb-2">Select a Document</h2>
+        <h2 className="text-xl font-bold text-slate-100 mb-2 tracking-tight">Select a Document</h2>
         <p className="text-slate-400 text-sm mb-6">Choose a document to start asking questions</p>
         {docs.length === 0 ? (
           <p className="text-slate-500 text-sm">No documents found. Upload one first.</p>
@@ -167,11 +167,11 @@ function DocumentSelector({ onSelect }: { onSelect: (id: string) => void }) {
               <button
                 key={doc._id}
                 onClick={() => onSelect(doc._id)}
-                className="w-full flex items-center gap-3 p-3 bg-white/5 hover:bg-indigo-600/15 border border-white/10 hover:border-indigo-500/40 rounded-xl transition-all text-left"
+                className="w-full flex items-center gap-3 p-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors text-left shadow-sm"
               >
-                <FileText className="w-5 h-5 text-indigo-400 shrink-0" />
+                <FileText className="w-5 h-5 text-indigo-500 shrink-0" />
                 <div className="min-w-0">
-                  <p className="text-sm text-white truncate">{doc.originalName}</p>
+                  <p className="text-sm text-slate-200 truncate">{doc.originalName}</p>
                   <p className="text-xs text-slate-500">{doc.mimeType}</p>
                 </div>
                 <ChevronDown className="w-4 h-4 text-slate-500 ml-auto -rotate-90" />
@@ -231,9 +231,17 @@ function ChatArea({ docId, convId, onConvCreated }: ChatAreaProps) {
     ta.style.height = Math.min(ta.scrollHeight, 96) + 'px';
   }, []);
 
+  const extractErrorMsg = (err: unknown): string => {
+    const e = err as { response?: { data?: { message?: string } }; message?: string };
+    if (e?.response?.data?.message) return e.response.data.message;
+    if (e?.message === 'Network Error') return 'Cannot connect to server. Please check your connection.';
+    if (e?.message) return e.message;
+    return 'Something went wrong. Please try again.';
+  };
+
   const showToast = (msg: string) => {
     setToast(msg);
-    setTimeout(() => setToast(null), 3500);
+    setTimeout(() => setToast(null), 4500);
   };
 
   const handleSend = () => {
@@ -256,21 +264,23 @@ function ChatArea({ docId, convId, onConvCreated }: ChatAreaProps) {
           if (!convId) onConvCreated(data.conversationId);
           setIsAsking(false);
         },
-        onError: () => {
-          setMessages(prev => prev.slice(0, -1));
+        onError: (err) => {
+          // Keep the user message visible so they can see context while retrying
           setIsAsking(false);
-          showToast('AI service is unavailable. Please try again.');
+          showToast(extractErrorMsg(err));
+          // Refocus textarea so user can retry immediately
+          setTimeout(() => textareaRef.current?.focus(), 100);
         },
       },
     );
   };
 
   return (
-    <div className="flex-1 flex flex-col min-h-0">
+    <div className="flex-1 flex flex-col min-h-0 bg-slate-950">
       {/* Header */}
-      <div className="px-6 py-3 border-b border-white/10 flex items-center gap-2 shrink-0">
-        <FileText className="w-4 h-4 text-indigo-400" />
-        <span className="text-sm font-medium text-white truncate">{docName}</span>
+      <div className="px-6 py-3 border-b border-slate-800 flex items-center gap-2 shrink-0 bg-slate-950">
+        <FileText className="w-4 h-4 text-indigo-500" />
+        <span className="text-sm font-medium text-slate-200 truncate">{docName}</span>
       </div>
 
       {/* Messages */}
@@ -287,8 +297,8 @@ function ChatArea({ docId, convId, onConvCreated }: ChatAreaProps) {
       </div>
 
       {/* Input */}
-      <div className="px-4 sm:px-8 py-4 border-t border-white/10 shrink-0">
-        <div className="flex items-end gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+      <div className="px-4 sm:px-8 py-4 border-t border-slate-800 shrink-0 bg-slate-950">
+        <div className="flex items-end gap-3 bg-slate-900 border border-slate-700 rounded-md px-4 py-3 shadow-sm">
           <textarea
             ref={textareaRef}
             value={input}
@@ -297,22 +307,22 @@ function ChatArea({ docId, convId, onConvCreated }: ChatAreaProps) {
             placeholder="Ask a question about this document…"
             disabled={isAsking}
             rows={1}
-            className="flex-1 bg-transparent text-white placeholder-slate-500 text-sm resize-none focus:outline-none disabled:opacity-50"
+            className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 text-sm resize-none focus:outline-none disabled:opacity-50"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isAsking}
-            className="p-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/30 disabled:cursor-not-allowed text-white transition-colors shrink-0"
+            className="p-2 rounded-md bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/30 disabled:cursor-not-allowed text-white transition-colors shrink-0"
           >
             {isAsking ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           </button>
         </div>
-        <p className="text-xs text-slate-600 mt-1.5 text-center">Shift+Enter for new line · Enter to send</p>
+        <p className="text-xs text-slate-500 mt-2 text-center">Shift+Enter for new line · Enter to send</p>
       </div>
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 bg-red-600 text-white text-sm px-4 py-3 rounded-xl shadow-lg flex items-center gap-2">
+        <div className="fixed bottom-6 right-6 z-50 bg-rose-500 text-white text-sm px-4 py-3 rounded-md shadow-sm flex items-center gap-2 font-medium">
           <AlertTriangle className="w-4 h-4" /> {toast}
         </div>
       )}
@@ -352,7 +362,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-slate-900 text-white pt-16">
+    <div className="flex h-screen bg-slate-950 text-slate-300 pt-16">
       {/* Sidebar */}
       <Sidebar
         open={sidebarOpen}
@@ -362,13 +372,13 @@ export default function ChatPage() {
       />
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 bg-slate-950">
         {/* Mobile nav toggle */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10 lg:hidden">
-          <button onClick={() => setSidebarOpen(o => !o)} className="text-slate-400 hover:text-white transition-colors">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 lg:hidden bg-slate-950">
+          <button onClick={() => setSidebarOpen(o => !o)} className="text-slate-400 hover:text-slate-200 transition-colors">
             {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-          <span className="font-semibold text-sm text-white">Chat</span>
+          <span className="font-semibold text-sm text-slate-100 tracking-tight">Chat</span>
         </div>
 
         {selectedDocId ? (

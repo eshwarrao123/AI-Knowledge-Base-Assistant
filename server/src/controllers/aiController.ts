@@ -4,7 +4,8 @@ import DocumentModel from '@models/Document';
 import Conversation from '@models/Conversation';
 import { AppError } from '@middleware/errorHandler';
 import { sendSuccess } from '@utils/response';
-import { openai } from '@config/openai';
+import { logger } from '@utils/logger';
+import { getAIResponse } from '@/services/aiService';
 import { buildPrompt } from '@utils/buildPrompt';
 
 // ─── Ask ──────────────────────────────────────────────────────────────────────
@@ -17,7 +18,8 @@ export const askQuestion = async (
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      next(new AppError(String(errors.array()[0].msg), 400));
+      const msgs = errors.array().map((e) => e.msg).join(', ');
+      next(new AppError(`Validation failed: ${msgs}`, 400));
       return;
     }
 
@@ -37,8 +39,39 @@ export const askQuestion = async (
       owner: req.user!.userId,
     });
     if (!document) { next(new AppError('Document not found', 404)); return; }
+
+    // If text extraction failed entirely, return a helpful message without hitting OpenAI
     if (!document.extractedText?.trim()) {
-      next(new AppError('No text could be extracted from this document', 400));
+      // Still create/find the conversation so the UI has a conversationId
+      let emptyConversation;
+      if (conversationId) {
+        emptyConversation = await Conversation.findOne({
+          _id: conversationId,
+          user: req.user!.userId,
+          document: documentId,
+        });
+        if (!emptyConversation) { next(new AppError('Conversation not found', 404)); return; }
+      } else {
+        emptyConversation = await Conversation.create({
+          user: req.user!.userId,
+          document: documentId,
+          title: question!.length > 60 ? question!.slice(0, 60) + '\u2026' : question!,
+          messages: [],
+        });
+      }
+      const noTextAnswer =
+        "I couldn't extract any readable text from this document. It may be a scanned image, " +
+        'password-protected, or use an unsupported format. Try uploading a text-based PDF, TXT, or Markdown file.';
+      emptyConversation.messages.push(
+        { role: 'user', content: question!, timestamp: new Date() },
+        { role: 'assistant', content: noTextAnswer, timestamp: new Date() },
+      );
+      await emptyConversation.save();
+      sendSuccess(res, {
+        answer: noTextAnswer,
+        conversationId: String(emptyConversation._id),
+        title: emptyConversation.title,
+      });
       return;
     }
 
@@ -65,18 +98,15 @@ export const askQuestion = async (
       content: m.content,
     }));
 
-    // Call OpenAI
+    // Call AI service (OpenAI first, Gemini fallback)
+    const promptMessages = buildPrompt(document.extractedText, question, history);
     let answer: string;
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
-        messages: buildPrompt(document.extractedText, question, history),
-        max_tokens: 1000,
-        temperature: 0.3,
-      });
-      answer = completion.choices[0]?.message?.content ?? 'No response generated.';
-    } catch {
-      next(new AppError('AI service temporarily unavailable', 503));
+      answer = await getAIResponse(promptMessages);
+    } catch (aiError) {
+      const msg = aiError instanceof Error ? aiError.message : String(aiError);
+      logger.error(`[askQuestion] AI service error: ${msg}`);
+      next(new AppError(msg || 'AI service temporarily unavailable', 503));
       return;
     }
 

@@ -21,14 +21,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 inset-x-0 z-50 bg-slate-950 border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <BrainCircuit className="w-6 h-6 text-indigo-400" />
-          <span className="font-bold text-white hidden sm:block">
-            AI<span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"> Knowledge</span>
+          <BrainCircuit className="w-6 h-6 text-indigo-500" />
+          <span className="font-bold text-white text-lg hidden sm:block tracking-tight">
+            AI Knowledge
           </span>
         </Link>
 
@@ -40,10 +40,10 @@ export default function Navbar() {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  `flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-indigo-500/20 text-indigo-300'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      ? 'bg-slate-800 text-white'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800'
                   }`
                 }
               >
@@ -60,9 +60,9 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen((o) => !o)}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-slate-300 hover:bg-slate-800 transition-colors"
               >
-                <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+                <div className="w-7 h-7 rounded-md bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">
                   {user?.name.charAt(0).toUpperCase()}
                 </div>
                 <span className="hidden sm:block max-w-[120px] truncate">{user?.name}</span>
@@ -70,13 +70,13 @@ export default function Navbar() {
               </button>
 
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-slate-800 border border-white/10 shadow-xl py-1">
-                  <div className="px-3 py-2 border-b border-white/10">
+                <div className="absolute right-0 mt-2 w-48 rounded-md bg-slate-900 border border-slate-800 shadow-md py-1">
+                  <div className="px-3 py-2 border-b border-slate-800">
                     <p className="text-xs text-slate-400 truncate">{user?.email}</p>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-500 hover:bg-slate-800 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     Sign out
@@ -94,7 +94,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors"
+                className="px-4 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white rounded-md transition-colors"
               >
                 Get started
               </Link>

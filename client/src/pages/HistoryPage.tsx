@@ -37,13 +37,13 @@ export default function HistoryPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-900 pt-16 text-white">
+    <main className="min-h-screen bg-slate-950 pt-16 text-slate-300">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-6">
 
         {/* Header */}
         <div className="flex items-center gap-3">
-          <History className="w-7 h-7 text-indigo-400" />
-          <h1 className="text-2xl font-bold">Conversation History</h1>
+          <History className="w-7 h-7 text-indigo-500" />
+          <h1 className="text-2xl font-bold text-slate-100 tracking-tight">Conversation History</h1>
         </div>
 
         {/* Filters */}
@@ -55,13 +55,13 @@ export default function HistoryPage() {
               placeholder="Search conversations…"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-md text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             />
           </div>
           <select
             value={docFilter}
             onChange={(e) => { setDocFilter(e.target.value); setPage(1); }}
-            className="px-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+            className="px-3 py-2 bg-slate-900 border border-slate-700 rounded-md text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           >
             <option value="">All documents</option>
             {docsData?.documents.map((d) => (
@@ -74,25 +74,25 @@ export default function HistoryPage() {
         {isLoading ? (
           <div className="space-y-3">
             {[1,2,3,4,5].map(i => (
-              <div key={i} className="h-16 bg-white/5 rounded-xl animate-pulse" />
+              <div key={i} className="h-16 bg-slate-900 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg p-12 text-center">
             <MessageSquare className="w-10 h-10 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-400">No conversations found</p>
+            <p className="text-slate-400 font-medium">No conversations found</p>
           </div>
         ) : (
           <div className="space-y-2">
             {conversations.map((conv) => (
               <div
                 key={conv._id}
-                className="group flex items-center gap-4 p-4 bg-white/5 border border-white/10 hover:border-indigo-500/30 rounded-xl cursor-pointer transition-all"
+                className="group flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-lg cursor-pointer transition-colors"
                 onClick={() => navigate(`/chat/${conv._id}`)}
               >
-                <MessageSquare className="w-5 h-5 text-purple-400 shrink-0" />
+                <MessageSquare className="w-5 h-5 text-indigo-500 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-medium truncate">{conv.title}</p>
+                  <p className="text-slate-200 font-medium truncate">{conv.title}</p>
                   <div className="flex items-center gap-2 mt-0.5">
                     <FileText className="w-3 h-3 text-slate-500" />
                     <p className="text-xs text-slate-400 truncate">{conv.document?.originalName}</p>
@@ -107,7 +107,7 @@ export default function HistoryPage() {
                     setDeleteTarget(conv._id);
                     setDeleteName(conv.title);
                   }}
-                  className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-500 hover:text-red-400 transition-all"
+                  className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-500 hover:text-rose-500 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -119,11 +119,11 @@ export default function HistoryPage() {
         {/* Pagination */}
         {pagination && pagination.totalPages > 1 && (
           <div className="flex items-center justify-center gap-3">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-lg border border-white/10 text-slate-400 hover:text-white disabled:opacity-30 transition-colors">
+            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 rounded-md bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 transition-colors">
               <ChevronLeft className="w-4 h-4" />
             </button>
             <span className="text-sm text-slate-400">Page {page} of {pagination.totalPages}</span>
-            <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages} className="p-2 rounded-lg border border-white/10 text-slate-400 hover:text-white disabled:opacity-30 transition-colors">
+            <button onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))} disabled={page === pagination.totalPages} className="p-2 rounded-md bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 transition-colors">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -132,18 +132,18 @@ export default function HistoryPage() {
 
       {/* Delete Confirm */}
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-slate-800 border border-white/10 rounded-2xl w-full max-w-sm p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg w-full max-w-sm p-6 shadow-md">
             <div className="flex items-center gap-3 mb-4">
-              <AlertTriangle className="w-5 h-5 text-red-400" />
-              <h2 className="font-semibold text-white">Delete Conversation</h2>
+              <AlertTriangle className="w-5 h-5 text-rose-500" />
+              <h2 className="font-semibold text-slate-100 tracking-tight">Delete Conversation</h2>
             </div>
-            <p className="text-slate-400 text-sm mb-6">
-              Delete &ldquo;<span className="text-white">{deleteName}</span>&rdquo;? This cannot be undone.
+            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+              Delete &ldquo;<span className="text-slate-200 font-medium">{deleteName}</span>&rdquo;? This cannot be undone.
             </p>
             <div className="flex gap-3">
-              <button onClick={() => setDeleteTarget(null)} className="flex-1 py-2 rounded-lg border border-white/10 text-slate-300 text-sm transition-colors hover:bg-white/5">Cancel</button>
-              <button onClick={handleDelete} disabled={deleteMutation.isPending} className="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+              <button onClick={() => setDeleteTarget(null)} className="flex-1 py-2 rounded-md bg-slate-800 border border-slate-700 text-slate-200 text-sm font-medium transition-colors hover:bg-slate-700">Cancel</button>
+              <button onClick={handleDelete} disabled={deleteMutation.isPending} className="flex-1 py-2 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                 {deleteMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                 Delete
               </button>

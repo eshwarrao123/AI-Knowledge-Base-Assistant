@@ -1,6 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
 import * as conversationsApi from '@/api/conversations';
 import type { AskRequest, ConversationQueryParams } from '@/types/conversation';
+
+/** Extract the most meaningful error message from an Axios error */
+export function extractApiError(err: unknown): string {
+  const e = err as AxiosError<{ message?: string }>;
+  if (e?.response?.data?.message) return e.response.data.message;
+  if (e?.message === 'Network Error') return 'Cannot connect to server. Please check your connection.';
+  if (e?.message) return e.message;
+  return 'Something went wrong. Please try again.';
+}
 
 const CONV_KEY = 'conversations';
 

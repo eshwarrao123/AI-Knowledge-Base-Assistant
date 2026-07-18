@@ -22,12 +22,12 @@ function StatCard({
   isLoading?: boolean;
 }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+    <div className="bg-slate-900 border border-slate-800 rounded-lg p-5">
       <Icon className={`w-5 h-5 ${color} mb-3`} />
       {isLoading ? (
-        <div className="h-8 w-16 bg-white/10 rounded animate-pulse mb-1" />
+        <div className="h-8 w-16 bg-slate-800 rounded animate-pulse mb-1" />
       ) : (
-        <p className="text-3xl font-bold text-white">{value}</p>
+        <p className="text-2xl font-bold text-white">{value}</p>
       )}
       <p className="text-slate-400 text-sm mt-1">{label}</p>
     </div>
@@ -48,77 +48,77 @@ export default function DashboardPage() {
   ).length;
 
   return (
-    <main className="min-h-screen bg-slate-900 pt-16 text-white">
+    <main className="min-h-screen bg-slate-950 pt-16 text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
 
         {/* Header */}
         <div className="flex items-center gap-3">
-          <LayoutDashboard className="w-7 h-7 text-indigo-400" />
+          <LayoutDashboard className="w-7 h-7 text-indigo-500" />
           <div>
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-slate-400 text-sm">Welcome back, {user?.name} 👋</p>
+            <h1 className="text-2xl font-bold text-slate-100 tracking-tight">Dashboard</h1>
+            <p className="text-slate-400 text-sm">Welcome back, {user?.name}</p>
           </div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon={FileText} label="Total Documents" value={stats?.documents ?? docsData?.pagination.total ?? '—'} color="text-indigo-400" isLoading={docsLoading} />
-          <StatCard icon={MessageSquare} label="Conversations" value={stats?.conversations ?? convsData?.pagination.total ?? '—'} color="text-purple-400" isLoading={convsLoading} />
-          <StatCard icon={TrendingUp} label="Docs This Week" value={docsThisWeek} color="text-emerald-400" isLoading={docsLoading} />
-          <StatCard icon={Clock} label="Recent Activity" value={recentConvs[0] ? formatDistanceToNow(new Date(recentConvs[0].updatedAt), { addSuffix: true }) : '—'} color="text-amber-400" isLoading={convsLoading} />
+          <StatCard icon={FileText} label="Total Documents" value={stats?.documents ?? docsData?.pagination.total ?? '—'} color="text-indigo-500" isLoading={docsLoading} />
+          <StatCard icon={MessageSquare} label="Conversations" value={stats?.conversations ?? convsData?.pagination.total ?? '—'} color="text-emerald-500" isLoading={convsLoading} />
+          <StatCard icon={TrendingUp} label="Docs This Week" value={docsThisWeek} color="text-amber-500" isLoading={docsLoading} />
+          <StatCard icon={Clock} label="Recent Activity" value={recentConvs[0] ? formatDistanceToNow(new Date(recentConvs[0].updatedAt), { addSuffix: true }) : '—'} color="text-indigo-400" isLoading={convsLoading} />
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Link
             to="/documents"
-            className="flex items-center gap-4 p-5 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl hover:bg-indigo-600/30 transition-colors group"
+            className="flex items-center gap-4 p-5 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors group"
           >
-            <div className="w-10 h-10 rounded-xl bg-indigo-600/40 flex items-center justify-center">
-              <Upload className="w-5 h-5 text-indigo-300" />
+            <div className="w-10 h-10 rounded-md bg-slate-800 flex items-center justify-center">
+              <Upload className="w-5 h-5 text-indigo-500" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-white">Upload Document</p>
-              <p className="text-indigo-300/70 text-sm">Add a PDF, TXT, or Markdown file</p>
+              <p className="font-medium text-slate-100">Upload Document</p>
+              <p className="text-slate-400 text-sm">Add a PDF, TXT, or Markdown file</p>
             </div>
-            <ChevronRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
+            <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
           </Link>
 
           <Link
             to="/chat"
-            className="flex items-center gap-4 p-5 bg-purple-600/20 border border-purple-500/30 rounded-2xl hover:bg-purple-600/30 transition-colors group"
+            className="flex items-center gap-4 p-5 bg-slate-900 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors group"
           >
-            <div className="w-10 h-10 rounded-xl bg-purple-600/40 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-purple-300" />
+            <div className="w-10 h-10 rounded-md bg-slate-800 flex items-center justify-center">
+              <Bot className="w-5 h-5 text-indigo-500" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-white">Ask AI</p>
-              <p className="text-purple-300/70 text-sm">Chat with your documents</p>
+              <p className="font-medium text-slate-100">Ask AI</p>
+              <p className="text-slate-400 text-sm">Chat with your documents</p>
             </div>
-            <ChevronRight className="w-4 h-4 text-purple-400 group-hover:translate-x-1 transition-transform" />
+            <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
           </Link>
         </div>
 
         {/* Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Documents */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-white flex items-center gap-2">
-                <FileText className="w-4 h-4 text-indigo-400" /> Recent Documents
+              <h2 className="font-semibold text-slate-100 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-indigo-500" /> Recent Documents
               </h2>
-              <Link to="/documents" className="text-xs text-indigo-400 hover:text-indigo-300">View all</Link>
+              <Link to="/documents" className="text-xs text-indigo-500 hover:text-indigo-400 font-medium">View all</Link>
             </div>
             {docsLoading ? (
               <div className="space-y-3">
-                {[1,2,3].map(i => <div key={i} className="h-10 bg-white/5 rounded-lg animate-pulse" />)}
+                {[1,2,3].map(i => <div key={i} className="h-10 bg-slate-800 rounded-md animate-pulse" />)}
               </div>
             ) : recentDocs.length === 0 ? (
               <p className="text-slate-500 text-sm text-center py-4">No documents yet</p>
             ) : (
               <div className="space-y-2">
                 {recentDocs.map((doc) => (
-                  <div key={doc._id} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
+                  <div key={doc._id} className="flex items-center gap-3 py-2 border-b border-slate-800 last:border-0">
                     <FileText className="w-4 h-4 text-slate-500 shrink-0" />
                     <p className="text-sm text-slate-300 truncate flex-1">{doc.originalName}</p>
                     <span className="text-xs text-slate-500 shrink-0">
@@ -131,16 +131,16 @@ export default function DashboardPage() {
           </div>
 
           {/* Recent Conversations */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-white flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-purple-400" /> Recent Chats
+              <h2 className="font-semibold text-slate-100 flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-emerald-500" /> Recent Chats
               </h2>
-              <Link to="/history" className="text-xs text-indigo-400 hover:text-indigo-300">View all</Link>
+              <Link to="/history" className="text-xs text-indigo-500 hover:text-indigo-400 font-medium">View all</Link>
             </div>
             {convsLoading ? (
               <div className="space-y-3">
-                {[1,2,3].map(i => <div key={i} className="h-10 bg-white/5 rounded-lg animate-pulse" />)}
+                {[1,2,3].map(i => <div key={i} className="h-10 bg-slate-800 rounded-md animate-pulse" />)}
               </div>
             ) : recentConvs.length === 0 ? (
               <p className="text-slate-500 text-sm text-center py-4">No conversations yet</p>
@@ -150,7 +150,7 @@ export default function DashboardPage() {
                   <Link
                     key={conv._id}
                     to={`/chat/${conv._id}`}
-                    className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0 hover:bg-white/5 rounded px-1 transition-colors"
+                    className="flex items-center gap-3 py-2 border-b border-slate-800 last:border-0 hover:bg-slate-800 rounded-md px-2 -mx-2 transition-colors"
                   >
                     <MessageSquare className="w-4 h-4 text-slate-500 shrink-0" />
                     <div className="flex-1 min-w-0">

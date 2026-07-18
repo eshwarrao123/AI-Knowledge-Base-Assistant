@@ -33,9 +33,9 @@ function formatDate(iso: string): string {
 }
 
 function getMimeIcon(mimeType: string) {
-  if (mimeType === 'application/pdf') return { Icon: FileType2, color: 'text-red-400', bg: 'bg-red-500/10' };
-  if (mimeType === 'text/markdown') return { Icon: FileText, color: 'text-emerald-400', bg: 'bg-emerald-500/10' };
-  return { Icon: File, color: 'text-blue-400', bg: 'bg-blue-500/10' };
+  if (mimeType === 'application/pdf') return { Icon: FileType2, color: 'text-rose-500', bg: 'bg-slate-800' };
+  if (mimeType === 'text/markdown') return { Icon: FileText, color: 'text-emerald-500', bg: 'bg-slate-800' };
+  return { Icon: File, color: 'text-indigo-500', bg: 'bg-slate-800' };
 }
 
 function getMimeLabel(mimeType: string): string {
@@ -48,17 +48,17 @@ function getMimeLabel(mimeType: string): string {
 
 function SkeletonCard() {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 animate-pulse">
+    <div className="bg-slate-900 border border-slate-800 rounded-lg p-5 animate-pulse">
       <div className="flex items-start gap-3 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-white/10" />
+        <div className="w-10 h-10 rounded-md bg-slate-800" />
         <div className="flex-1 space-y-2">
-          <div className="h-4 bg-white/10 rounded w-3/4" />
-          <div className="h-3 bg-white/10 rounded w-1/2" />
+          <div className="h-4 bg-slate-800 rounded w-3/4" />
+          <div className="h-3 bg-slate-800 rounded w-1/2" />
         </div>
       </div>
       <div className="space-y-2">
-        <div className="h-3 bg-white/10 rounded w-full" />
-        <div className="h-3 bg-white/10 rounded w-2/3" />
+        <div className="h-3 bg-slate-800 rounded w-full" />
+        <div className="h-3 bg-slate-800 rounded w-2/3" />
       </div>
     </div>
   );
@@ -75,22 +75,22 @@ function PreviewModal({ docId, onClose }: PreviewModalProps) {
   if (!docId) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80" onClick={onClose}>
       <div
-        className="bg-slate-800 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[80vh] flex flex-col shadow-2xl"
+        className="bg-slate-900 border border-slate-800 rounded-lg w-full max-w-3xl max-h-[80vh] flex flex-col shadow-md"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
           <div>
-            <h2 className="font-semibold text-white text-lg truncate">
+            <h2 className="font-semibold text-slate-100 text-lg truncate tracking-tight">
               {data?.originalName ?? 'Preview'}
             </h2>
             {data?.mimeType && (
               <span className="text-xs text-slate-400">{getMimeLabel(data.mimeType)}</span>
             )}
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-100 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -99,7 +99,7 @@ function PreviewModal({ docId, onClose }: PreviewModalProps) {
         <div className="flex-1 overflow-auto p-6">
           {isLoading ? (
             <div className="flex items-center justify-center h-32">
-              <Loader2 className="w-6 h-6 text-indigo-400 animate-spin" />
+              <Loader2 className="w-6 h-6 text-indigo-500 animate-spin" />
             </div>
           ) : data?.content ? (
             <pre className="text-sm text-slate-300 whitespace-pre-wrap font-mono leading-relaxed">
@@ -125,33 +125,33 @@ function DeleteDialog({ doc, onConfirm, onClose, isDeleting }: DeleteDialogProps
   if (!doc) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80" onClick={onClose}>
       <div
-        className="bg-slate-800 border border-white/10 rounded-2xl w-full max-w-sm p-6 shadow-2xl"
+        className="bg-slate-900 border border-slate-800 rounded-lg w-full max-w-sm p-6 shadow-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
-            <AlertTriangle className="w-5 h-5 text-red-400" />
+          <div className="w-10 h-10 rounded-md bg-rose-500/10 flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-rose-500" />
           </div>
-          <h2 className="font-semibold text-white">Delete Document</h2>
+          <h2 className="font-semibold text-slate-100 tracking-tight">Delete Document</h2>
         </div>
-        <p className="text-slate-400 text-sm mb-6">
+        <p className="text-slate-400 text-sm mb-6 leading-relaxed">
           Are you sure you want to delete{' '}
-          <span className="text-white font-medium">{doc.originalName}</span>? This action cannot be undone.
+          <span className="text-slate-200 font-medium">{doc.originalName}</span>? This action cannot be undone.
         </p>
         <div className="flex gap-3">
           <button
             onClick={onClose}
             disabled={isDeleting}
-            className="flex-1 py-2 rounded-lg border border-white/10 text-slate-300 hover:bg-white/5 text-sm transition-colors disabled:opacity-50"
+            className="flex-1 py-2 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 font-medium text-sm transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             disabled={isDeleting}
-            className="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 py-2 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isDeleting && <Loader2 className="w-4 h-4 animate-spin" />}
             Delete
@@ -171,13 +171,13 @@ interface DocumentCardProps {
 function DocumentCard({ doc, onPreview, onDelete }: DocumentCardProps) {
   const { Icon, color, bg } = getMimeIcon(doc.mimeType);
   return (
-    <div className="group bg-white/5 border border-white/10 hover:border-indigo-500/40 rounded-2xl p-5 transition-all duration-200">
+    <div className="group bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-lg p-5 transition-colors">
       <div className="flex items-start gap-3 mb-4">
-        <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
+        <div className={`w-10 h-10 rounded-md ${bg} flex items-center justify-center shrink-0`}>
           <Icon className={`w-5 h-5 ${color}`} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white font-medium text-sm truncate" title={doc.originalName}>
+          <p className="text-slate-100 font-medium text-sm truncate" title={doc.originalName}>
             {doc.originalName}
           </p>
           <p className="text-slate-500 text-xs mt-0.5">{getMimeLabel(doc.mimeType)}</p>
@@ -195,16 +195,16 @@ function DocumentCard({ doc, onPreview, onDelete }: DocumentCardProps) {
         )}
       </div>
 
-      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="flex gap-2">
         <button
           onClick={() => onPreview(doc._id)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 text-xs font-medium transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors"
         >
           <Eye className="w-3.5 h-3.5" /> Preview
         </button>
         <button
           onClick={() => onDelete(doc)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600/40 text-red-400 text-xs font-medium transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md bg-slate-800 hover:bg-rose-500/20 text-rose-500 text-xs font-medium transition-colors opacity-0 group-hover:opacity-100"
         >
           <Trash2 className="w-3.5 h-3.5" /> Delete
         </button>
@@ -278,13 +278,13 @@ export default function DocumentsPage() {
   const documents = data?.documents ?? [];
 
   return (
-    <main className="min-h-screen bg-slate-900 pt-16 text-white">
+    <main className="min-h-screen bg-slate-950 pt-16 text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-6">
 
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">My Documents</h1>
+            <h1 className="text-2xl font-bold text-slate-100 tracking-tight">My Documents</h1>
             <p className="text-slate-400 text-sm mt-0.5">
               {pagination ? `${pagination.total} document${pagination.total !== 1 ? 's' : ''}` : ' '}
             </p>
@@ -294,21 +294,21 @@ export default function DocumentsPage() {
         {/* Upload Zone */}
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
+          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
             isDragActive
-              ? 'border-indigo-500 bg-indigo-500/10'
-              : 'border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/[0.07]'
+              ? 'border-indigo-500 bg-slate-900'
+              : 'border-slate-800 hover:border-slate-700 bg-slate-900'
           }`}
         >
           <input {...getInputProps()} />
           <div className="flex flex-col items-center gap-3">
             {uploadMutation.isPending ? (
-              <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+              <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
             ) : (
-              <Upload className={`w-8 h-8 ${isDragActive ? 'text-indigo-400' : 'text-slate-500'}`} />
+              <Upload className={`w-8 h-8 ${isDragActive ? 'text-indigo-500' : 'text-slate-500'}`} />
             )}
             <div>
-              <p className="text-white font-medium text-sm">
+              <p className="text-slate-200 font-medium text-sm">
                 {isDragActive
                   ? 'Drop your file here'
                   : uploadMutation.isPending
@@ -328,7 +328,7 @@ export default function DocumentsPage() {
             placeholder="Search documents…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-sm"
+            className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-md text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           />
         </div>
 
@@ -338,9 +338,9 @@ export default function DocumentsPage() {
             {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
         ) : documents.length === 0 ? (
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+          <div className="bg-slate-900 border border-slate-800 rounded-lg p-12 text-center">
             <FileText className="w-10 h-10 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-400 font-medium">No documents found</p>
+            <p className="text-slate-300 font-medium">No documents found</p>
             <p className="text-slate-500 text-sm mt-1">
               {debouncedSearch ? 'Try a different search term.' : 'Upload your first PDF, TXT, or Markdown file.'}
             </p>
@@ -364,7 +364,7 @@ export default function DocumentsPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="p-2 rounded-lg border border-white/10 text-slate-400 hover:text-white disabled:opacity-30 transition-colors"
+              className="p-2 rounded-md bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -374,7 +374,7 @@ export default function DocumentsPage() {
             <button
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
               disabled={page === pagination.totalPages}
-              className="p-2 rounded-lg border border-white/10 text-slate-400 hover:text-white disabled:opacity-30 transition-colors"
+              className="p-2 rounded-md bg-slate-800 text-slate-300 hover:text-white disabled:opacity-30 transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -394,10 +394,10 @@ export default function DocumentsPage() {
       {/* Toast */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-medium transition-all ${
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-md shadow-sm text-sm font-medium transition-colors ${
             toast.type === 'success'
-              ? 'bg-emerald-600 text-white'
-              : 'bg-red-600 text-white'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-rose-500 text-white'
           }`}
         >
           {toast.type === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}

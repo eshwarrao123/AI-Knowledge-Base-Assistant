@@ -10,6 +10,7 @@
     "lint:fix": "eslint src --ext .ts --fix"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -22,7 +23,8 @@
     "morgan": "^1.10.0",
     "multer": "^2.2.0",
     "openai": "^6.48.0",
-    "pdf-parse": "^2.4.5",
+    "pdf2json": "^4.0.3",
+    "pdfjs-dist": "^4.0.379",
     "uuid": "^14.0.1"
   },
   "devDependencies": {
