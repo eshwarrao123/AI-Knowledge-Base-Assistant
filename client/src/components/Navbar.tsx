@@ -1,11 +1,12 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, FileText, History, BrainCircuit, ChevronDown } from 'lucide-react';
+import { LogOut, LayoutDashboard, FileText, History, BrainCircuit, ChevronDown, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 
 const NAV_LINKS = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/documents', label: 'Documents', icon: FileText },
+  { to: '/chat', label: 'Chat', icon: MessageSquare },
   { to: '/history', label: 'History', icon: History },
 ];
 

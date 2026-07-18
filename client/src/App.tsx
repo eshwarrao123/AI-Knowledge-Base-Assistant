@@ -7,6 +7,7 @@ import RegisterPage from '@pages/RegisterPage';
 import DashboardPage from '@pages/DashboardPage';
 import DocumentsPage from '@pages/DocumentsPage';
 import HistoryPage from '@pages/HistoryPage';
+import ChatPage from '@pages/ChatPage';
 import NotFoundPage from '@pages/NotFoundPage';
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/documents" element={<DocumentsPage />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/chat/:conversationId" element={<ChatPage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

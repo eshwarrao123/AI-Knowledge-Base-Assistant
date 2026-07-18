@@ -20,7 +20,7 @@ server/dist/
 server/uploads/*
 !server/uploads/.gitkeep
 
-# Logs
+# Logs+
 logs/
 *.log
 npm-debug.log*
