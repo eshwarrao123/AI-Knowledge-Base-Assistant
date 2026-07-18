@@ -16,6 +16,10 @@ build/
 client/dist/
 server/dist/
 
+# Uploaded files (runtime data)
+server/uploads/*
+!server/uploads/.gitkeep
+
 # Logs
 logs/
 *.log

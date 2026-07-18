@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import { sendSuccess } from '@utils/response';
 import authRoutes from '@routes/authRoutes';
+import documentRoutes from '@routes/documentRoutes';
 
 const router = Router();
 
@@ -11,11 +12,10 @@ router.get('/health', (_req: Request, res: Response) => {
 
 // ─── Feature Routers ──────────────────────────────────────────────────────────
 router.use('/auth', authRoutes);
+router.use('/documents', documentRoutes);
 
 // Future routers:
-// import documentRoutes from '@routes/documentRoutes';
 // import conversationRoutes from '@routes/conversationRoutes';
-// router.use('/documents', documentRoutes);
 // router.use('/conversations', conversationRoutes);
 
 export { router as apiRouter };
