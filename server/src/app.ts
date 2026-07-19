@@ -9,6 +9,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { notFound } from './middleware/notFound';
 
 const app: Application = express();
+app.set('trust proxy', 1);
 
 // ─── Security Middleware ────────────────────────────────────────────────────
 app.use(helmet());
